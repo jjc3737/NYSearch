@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NYSearch</string>
+    <string name="action_settings">Settings</string>
+    <string name="search_hint">Enter search query</string>
+    <string name="search_btn_title">Search</string>
+    <string name="title_activity_article">ArticleActivity</string>
+</resources>

@@ -4,4 +4,16 @@
     <string name="search_hint">Enter search query</string>
     <string name="search_btn_title">Search</string>
     <string name="title_activity_article">ArticleActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="date">Begin Date</string>
+    <string name="sort">Sort Order</string>
+    <string name="newsDesk">News Desk Values</string>
+
+
+    <string-array name="sortArray">
+        <item>Oldest</item>
+        <item>Newest</item>
+    </string-array>
+
 </resources>

@@ -12,11 +12,11 @@
     tools:context=".Activities.SearchActivity"
     tools:showIn="@layout/activity_search">
 
-
-    <GridView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/gvResults"
-        android:layout_centerHorizontal="true"
-        android:numColumns="4" />
+        android:layout_height="match_parent"
+        android:id="@+id/rvArticles">
+
+    </android.support.v7.widget.RecyclerView>
+
 </RelativeLayout>

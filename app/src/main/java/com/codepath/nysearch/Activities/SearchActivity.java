@@ -9,20 +9,20 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
 import com.codepath.nysearch.Model.Article;
 import com.codepath.nysearch.R;
-import com.codepath.nysearch.View.ArticleArrayAdapter;
+import com.codepath.nysearch.View.ArticlesAdapater;
 import com.codepath.nysearch.View.SettingFragment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -42,9 +42,10 @@ import cz.msebera.android.httpclient.Header;
 public class SearchActivity extends AppCompatActivity {
 
     GridView gvResults;
+    RecyclerView rvArticles;
 
     ArrayList<Article> articles;
-    ArticleArrayAdapter adapter;
+    ArticlesAdapater adapter;
 
     private SharedPreferences setting;
 
@@ -67,25 +68,15 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void setupViews() {
-        gvResults = (GridView) findViewById(R.id.gvResults);
+        rvArticles = (RecyclerView) findViewById(R.id.rvArticles);
         articles = new ArrayList<>();
-        adapter = new ArticleArrayAdapter(this, articles);
-        gvResults.setAdapter(adapter);
 
-        //onclick listener
+        adapter = new ArticlesAdapater(articles);
+        rvArticles.setAdapter(adapter);
 
-        gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //intent to display article
-                Intent i = new Intent(getApplicationContext(), ArticleActivity.class);
-
-                Article article = articles.get(position);
-                i.putExtra("article", Parcels.wrap(article));
-
-                startActivity(i);
-            }
-        });
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,
+                StaggeredGridLayoutManager.VERTICAL);
+        rvArticles.setLayoutManager(layoutManager);
 
     }
 

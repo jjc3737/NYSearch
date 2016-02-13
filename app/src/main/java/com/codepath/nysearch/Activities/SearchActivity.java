@@ -146,6 +146,10 @@ public class SearchActivity extends AppCompatActivity {
         url = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
 
         params = getParams(query);
+        if (articles.size()  > 0 ) {
+            articles.clear();
+            adapter.notifyDataSetChanged();
+        }
 
         client.get(url, params, new JsonHttpResponseHandler() {
             @Override
@@ -153,10 +157,6 @@ public class SearchActivity extends AppCompatActivity {
                 JSONArray articleJsonResults = null;
 
                 try {
-                    if (articles.size()  > 0 ) {
-                        articles.clear();
-                        adapter.notifyDataSetChanged();
-                    }
                     articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
                     articles.addAll(Article.fromJSONArray(articleJsonResults));
                     adapter.notifyDataSetChanged();

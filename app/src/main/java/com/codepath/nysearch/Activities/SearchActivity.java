@@ -22,6 +22,7 @@ import com.codepath.nysearch.Adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.nysearch.Fragments.SettingFragment;
 import com.codepath.nysearch.Model.Article;
 import com.codepath.nysearch.R;
+import com.codepath.nysearch.View.SpacesItemDecoration;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -75,6 +76,9 @@ public class SearchActivity extends AppCompatActivity {
 
         adapter = new ArticlesAdapater(articles);
         rvArticles.setAdapter(adapter);
+
+        SpacesItemDecoration decoration = new SpacesItemDecoration(10);
+        rvArticles.addItemDecoration(decoration);
 
         layoutManager = new StaggeredGridLayoutManager(4,
                 StaggeredGridLayoutManager.VERTICAL);

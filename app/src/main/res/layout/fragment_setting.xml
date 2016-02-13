@@ -22,6 +22,7 @@
             android:layout_marginLeft="10dp"
             android:textSize="16sp"
             android:id="@+id/tvDatePicker"
+            android:textColor="@color/colorAccent"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -34,13 +35,14 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/tvDatePicker"
-            android:calendarViewShown="false"/>
+            android:calendarViewShown="false" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sort"
             android:id="@+id/tvSortPicker"
+            android:textColor="@color/colorAccent"
             android:paddingBottom="5dp"
             android:textSize="16sp"
             android:layout_centerVertical="true"
@@ -61,8 +63,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="News Desk Values"
+            android:textColor="@color/colorAccent"
             android:id="@+id/tvNewsDeskValue"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="18dp"
             android:layout_below="@+id/spSortOrder"
             android:layout_alignLeft="@+id/tvSortPicker"
             android:layout_alignStart="@+id/tvSortPicker"
@@ -74,10 +77,11 @@
             android:layout_height="wrap_content"
             android:text="Arts"
             android:id="@+id/cbArts"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="18dp"
             android:layout_below="@+id/spSortOrder"
             android:layout_alignLeft="@+id/dpBeignDatePicker"
-            android:layout_alignStart="@+id/dpBeignDatePicker" />
+            android:layout_alignStart="@+id/dpBeignDatePicker"
+            android:buttonTint="@color/colorPrimary"/>
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -86,7 +90,8 @@
             android:id="@+id/cbFashion"
             android:layout_below="@+id/tvNewsDeskValue"
             android:layout_alignLeft="@+id/cbArts"
-            android:layout_alignStart="@+id/cbArts" />
+            android:layout_alignStart="@+id/cbArts"
+            android:buttonTint="@color/colorPrimary"/>
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -95,7 +100,8 @@
             android:id="@+id/cbSports"
             android:layout_below="@+id/cbFashion"
             android:layout_alignLeft="@+id/cbFashion"
-            android:layout_alignStart="@+id/cbFashion" />
+            android:layout_alignStart="@+id/cbFashion"
+            android:buttonTint="@color/colorPrimary"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -103,8 +109,10 @@
             android:text="Save"
             android:layout_centerHorizontal="true"
             android:id="@+id/btSave"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/cbSports" />
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/cbSports"
+            android:background="@color/colorPrimary"
+            android:textColor="#ffffff"/>
 
     </RelativeLayout>
 

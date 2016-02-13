@@ -22,6 +22,9 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by JaneChung on 2/12/16.
  */
@@ -36,14 +39,13 @@ public class ArticlesAdapater extends RecyclerView.Adapter<ArticlesAdapater.View
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public ImageView image;
-        public TextView title;
+        @Bind(R.id.ivImage) ImageView image;
+        @Bind(R.id.tvTitle) TextView title;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            image = (ImageView) itemView.findViewById(R.id.ivImage);
-            title = (TextView) itemView.findViewById(R.id.tvTitle);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 

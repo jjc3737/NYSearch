@@ -14,6 +14,8 @@ import android.webkit.WebViewClient;
 import com.codepath.nysearch.Model.Article;
 import com.codepath.nysearch.R;
 
+import org.parceler.Parcels;
+
 public class ArticleActivity extends AppCompatActivity {
 
     private ShareActionProvider actionProvider;
@@ -26,7 +28,7 @@ public class ArticleActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Article article = (Article) getIntent().getSerializableExtra("article");
+        Article article = (Article) Parcels.unwrap(getIntent().getParcelableExtra("article"));
         setupShareIntent(article);
 
         WebView webView = (WebView) findViewById(R.id.wvArticle);

@@ -19,6 +19,9 @@ import com.codepath.nysearch.R;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -29,11 +32,11 @@ import java.util.GregorianCalendar;
  */
 public class SettingFragment extends DialogFragment {
 
-    private DatePicker mdatePicker;
-    private Spinner mspinner;
-    private CheckBox mArtsCheckBox;
-    private CheckBox mFashionCheckBox;
-    private CheckBox mSportsCheckBox;
+    @Bind(R.id.dpBeignDatePicker) DatePicker mdatePicker;
+    @Bind(R.id.spSortOrder) Spinner mspinner;
+    @Bind(R.id.cbArts) CheckBox mArtsCheckBox;
+    @Bind(R.id.cbFashion) CheckBox mFashionCheckBox;
+    @Bind(R.id.cbSports) CheckBox mSportsCheckBox;
 
     private SharedPreferences setting;
 
@@ -64,8 +67,10 @@ public class SettingFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        ButterKnife.bind(this, view);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+        return view;
     }
 
     public void getSharedPreferences() {
@@ -100,11 +105,6 @@ public class SettingFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         setting = getActivity().getApplicationContext().getSharedPreferences(prefName, Context.MODE_PRIVATE);
-        mdatePicker = (DatePicker) view.findViewById(R.id.dpBeignDatePicker);
-        mspinner = (Spinner) view.findViewById(R.id.spSortOrder);
-        mArtsCheckBox = (CheckBox) view.findViewById(R.id.cbArts);
-        mFashionCheckBox = (CheckBox) view.findViewById(R.id.cbFashion);
-        mSportsCheckBox = (CheckBox) view.findViewById(R.id.cbSports);
 
         Button btnSave = (Button) view.findViewById(R.id.btSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +151,12 @@ public class SettingFragment extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     @Override

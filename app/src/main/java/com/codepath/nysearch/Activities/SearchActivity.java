@@ -9,18 +9,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.SearchView;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.codepath.nysearch.Adapters.ArticlesAdapater;
 import com.codepath.nysearch.Adapters.EndlessRecyclerViewScrollListener;
+import com.codepath.nysearch.Fragments.SettingFragment;
 import com.codepath.nysearch.Model.Article;
 import com.codepath.nysearch.R;
-import com.codepath.nysearch.Adapters.ArticlesAdapater;
-import com.codepath.nysearch.Fragments.SettingFragment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -33,11 +34,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class SearchActivity extends AppCompatActivity {
 
-    RecyclerView rvArticles;
+    @Bind(R.id.rvArticles) RecyclerView rvArticles;
 
     ArrayList<Article> articles;
     ArticlesAdapater adapter;
@@ -61,13 +64,13 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setting = getApplicationContext().getSharedPreferences(prefName, Context.MODE_PRIVATE);
         setContentView(R.layout.activity_search);
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupViews();
     }
 
     public void setupViews() {
-        rvArticles = (RecyclerView) findViewById(R.id.rvArticles);
         articles = new ArrayList<>();
 
         adapter = new ArticlesAdapater(articles);

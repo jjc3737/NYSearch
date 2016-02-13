@@ -44,6 +44,7 @@ public class SearchActivity extends AppCompatActivity {
 
     RequestParams params;
     String url;
+    StaggeredGridLayoutManager layoutManager;
 
     private SharedPreferences setting;
 
@@ -72,7 +73,7 @@ public class SearchActivity extends AppCompatActivity {
         adapter = new ArticlesAdapater(articles);
         rvArticles.setAdapter(adapter);
 
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,
+        layoutManager = new StaggeredGridLayoutManager(4,
                 StaggeredGridLayoutManager.VERTICAL);
         rvArticles.setLayoutManager(layoutManager);
         rvArticles.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
@@ -145,7 +146,10 @@ public class SearchActivity extends AppCompatActivity {
                 JSONArray articleJsonResults = null;
 
                 try {
-                    articles.clear();
+                    if (articles.size()  > 0 ) {
+                        articles.clear();
+                        adapter.notifyDataSetChanged();
+                    }
                     articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
                     articles.addAll(Article.fromJSONArray(articleJsonResults));
                     adapter.notifyDataSetChanged();

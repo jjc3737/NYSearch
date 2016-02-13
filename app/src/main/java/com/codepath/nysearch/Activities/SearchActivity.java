@@ -1,7 +1,6 @@
 package com.codepath.nysearch.Activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,16 +13,14 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
+import com.codepath.nysearch.Adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.nysearch.Model.Article;
 import com.codepath.nysearch.R;
-import com.codepath.nysearch.View.ArticlesAdapater;
-import com.codepath.nysearch.View.SettingFragment;
+import com.codepath.nysearch.Adapters.ArticlesAdapater;
+import com.codepath.nysearch.Fragments.SettingFragment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -31,7 +28,6 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,11 +37,13 @@ import cz.msebera.android.httpclient.Header;
 
 public class SearchActivity extends AppCompatActivity {
 
-    GridView gvResults;
     RecyclerView rvArticles;
 
     ArrayList<Article> articles;
     ArticlesAdapater adapter;
+
+    RequestParams params;
+    String url;
 
     private SharedPreferences setting;
 
@@ -77,6 +75,12 @@ public class SearchActivity extends AppCompatActivity {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,
                 StaggeredGridLayoutManager.VERTICAL);
         rvArticles.setLayoutManager(layoutManager);
+        rvArticles.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                loadMoreAritcles(page);
+            }
+        });
 
     }
 
@@ -130,11 +134,10 @@ public class SearchActivity extends AppCompatActivity {
             return;
         }
 
-
         AsyncHttpClient client = new AsyncHttpClient();
-        String url = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
+        url = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
 
-        RequestParams params = getParams(query);
+        params = getParams(query);
 
         client.get(url, params, new JsonHttpResponseHandler() {
             @Override
@@ -152,6 +155,27 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void loadMoreAritcles(int offset) {
+        params.put("page", offset);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                JSONArray articleJsonResults = null;
+
+                try {
+                    articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
+                    articles.addAll(Article.fromJSONArray(articleJsonResults));
+                    int curSize = adapter.getItemCount();
+                    adapter.notifyItemRangeChanged(curSize, articles.size() - 1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public RequestParams getParams(String query) {

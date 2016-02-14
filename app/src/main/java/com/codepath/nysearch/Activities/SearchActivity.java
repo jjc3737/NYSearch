@@ -161,8 +161,14 @@ public class SearchActivity extends AppCompatActivity {
                     articles.addAll(Article.fromJSONArray(articleJsonResults));
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    showRequestFailureToast();
                 }
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, String s,
+                                  Throwable throwable) {
+                showRequestFailureToast();
             }
         });
 
@@ -183,10 +189,20 @@ public class SearchActivity extends AppCompatActivity {
                     int curSize = adapter.getItemCount();
                     adapter.notifyItemRangeChanged(curSize, articles.size() - 1);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    showRequestFailureToast();
                 }
             }
+
+            @Override
+            public void onFailure(int i, Header[] headers, String s,
+                                  Throwable throwable) {
+               showRequestFailureToast();
+            }
         });
+    }
+
+    public void showRequestFailureToast() {
+        Toast.makeText(getApplicationContext(), "Network request failed, try again", Toast.LENGTH_SHORT).show();
     }
 
     public RequestParams getParams(String query) {

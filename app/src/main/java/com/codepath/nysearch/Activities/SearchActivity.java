@@ -21,6 +21,7 @@ import com.codepath.nysearch.Adapters.ArticlesAdapater;
 import com.codepath.nysearch.Adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.nysearch.Fragments.SettingFragment;
 import com.codepath.nysearch.Model.Article;
+import com.codepath.nysearch.Model.ArticlesResponse;
 import com.codepath.nysearch.R;
 import com.codepath.nysearch.View.SpacesItemDecoration;
 import com.loopj.android.http.AsyncHttpClient;
@@ -153,16 +154,20 @@ public class SearchActivity extends AppCompatActivity {
 
         client.get(url, params, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONArray articleJsonResults = null;
-
-                try {
-                    articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
-                    articles.addAll(Article.fromJSONArray(articleJsonResults));
-                    adapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    showRequestFailureToast();
-                }
+            public void onSuccess(int statusCode, Header[] headers, String s) {
+                ArrayList<Article> response = fromJson(s);
+                articles.addAll(response);
+                int curSize = adapter.getItemCount();
+                adapter.notifyItemRangeChanged(curSize, articles.size() - 1);
+//                JSONArray articleJsonResults = null;
+//
+//                try {
+//                    articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
+//                    articles.addAll(Article.fromJSONArray(articleJsonResults));
+//                    adapter.notifyDataSetChanged();
+//                } catch (JSONException e) {
+//                    showRequestFailureToast();
+//                }
             }
 
             @Override
@@ -180,17 +185,22 @@ public class SearchActivity extends AppCompatActivity {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, params, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONArray articleJsonResults = null;
+            public void onSuccess(int statusCode, Header[] headers, String s) {
+                ArrayList<Article> response = fromJson(s);
+                articles.addAll(response);
+                int curSize = adapter.getItemCount();
+                adapter.notifyItemRangeChanged(curSize, articles.size() - 1);
+                //JSONArray articleJsonResults = null;
 
-                try {
-                    articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
-                    articles.addAll(Article.fromJSONArray(articleJsonResults));
-                    int curSize = adapter.getItemCount();
-                    adapter.notifyItemRangeChanged(curSize, articles.size() - 1);
-                } catch (JSONException e) {
-                    showRequestFailureToast();
-                }
+//                try {
+////                    articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
+////                    articles.addAll(Article.fromJSONArray(articleJsonResults));
+//
+//                    int curSize = adapter.getItemCount();
+//                    adapter.notifyItemRangeChanged(curSize, articles.size() - 1);
+//                } catch (JSONException e) {
+//                    showRequestFailureToast();
+//                }
             }
 
             @Override
@@ -199,6 +209,12 @@ public class SearchActivity extends AppCompatActivity {
                showRequestFailureToast();
             }
         });
+
+    }
+
+    public static ArrayList<Article> fromJson(String s) {
+        ArrayList<Article> articles = ArticlesResponse.parseJSON(s);
+        return articles;
     }
 
     public void showRequestFailureToast() {

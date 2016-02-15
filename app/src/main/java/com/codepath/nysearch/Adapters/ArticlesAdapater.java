@@ -88,7 +88,7 @@ public class ArticlesAdapater extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemViewType(int position) {
         Article article = mArticles.get(position);
-        String imageUrl = article.getThumbnailUrl();
+        String imageUrl = article.getMultimedia().get(2).getUrl();
         if (imageUrl == null || imageUrl == "") {
             return TITLE;
         } else {
@@ -142,7 +142,7 @@ public class ArticlesAdapater extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private void configureViewHolder(ViewHolder v1, Article article) {
-        String thumbnail = article.getThumbnailUrl();
+        String thumbnail = article.getMultimedia().get(2).getUrl();
         ImageView iv = v1.image;
         iv.setImageResource(0);
 
@@ -154,11 +154,13 @@ public class ArticlesAdapater extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .placeholder(R.drawable.placeholder_article)
                     .into(iv);
         }
-        v1.title.setText(article.getHeadline());
+        String headline = article.getHeadline().getMain();
+        v1.title.setText(headline);
     }
 
     private void configureViewHolder2(ViewHolder2 v2, Article article) {
-        v2.title.setText(article.getHeadline());
+        String headline = article.getHeadline().getMain();
+        v2.title.setText(headline);
     }
 
     @Override
